@@ -1,9 +1,9 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:show, :edit, :destroy]
   
   def index
-    @tasks = Task.order(created_at: :desc).page(params[:page]).per(3)
+    @tasks = current_user.tasks.order(created_at: :desc).page(params[:page]).per(3)
   end
 
   def create
@@ -23,7 +23,6 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @task = Task.find(params[:id])
   end 
   
   def update
@@ -60,5 +59,4 @@ class TasksController < ApplicationController
   def set_task
     @task = Task.find(params[:id])
   end
-  
 end
